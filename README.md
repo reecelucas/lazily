@@ -4,7 +4,7 @@ A lightweight (2.9kb min, 1.4kb min + gzip) image lazy-loading utility using the
 
 ## Browser Support
 
-For Intersection API support please refer to [canIuse](https://caniuse.com/#feat=intersectionobserver). In unsupporting browsers it's necessary to load a [polyfill](https://github.com/w3c/IntersectionObserver/tree/master/polyfill) in order to observe images on scroll. In the absence of native or polyfilled support, all images are loaded immediately.
+For Intersection Observer API support please refer to [canIuse](https://caniuse.com/#feat=intersectionobserver). In unsupporting browsers it's necessary to load a [polyfill](https://github.com/w3c/IntersectionObserver/tree/master/polyfill) in order to observe images on scroll. In the absence of native or polyfilled support, all images are loaded immediately.
 
 ## Install
 
@@ -23,7 +23,7 @@ yarn add lazily
 ## Example Usage
 
 ```html
-<!-- Simple -->
+<!-- Simple image -->
 <img
     class="js-lazily-image"
     src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
@@ -50,7 +50,7 @@ yarn add lazily
 import lazily from 'lazily.js'; // or const lazily = require('lazily.js');
 
 /**
- * Call the `lazily` factory function to return a "lazily"
+ * Call the `lazily` factory function to return a `lazily`
  * object exposing three methods:
  *
  * 1. init
@@ -73,9 +73,7 @@ lazyLoad.destroy();
  * This method is useful if you need to respond to DOM insertions after fetching
  * data asynchronously.
  */
-lazyLoad.update();
-
-getImagesFromApi().then(() => {
+fetchImagesAndUpdateDOM().then(() => {
     lazyLoad.update();
 });
 
@@ -90,7 +88,7 @@ const lazyLoad = lazily({
     errorClass: 'my-error-class',
     loadCallback: () => console.log('image has been loaded!'),
     errorCallback: () => console.log('something went wrong!'),
-    rootId: 'my-container-id',
+    rootId: 'my-root-container-id',
     rootMargin: '100px 100px 100px 100px',
     threshold: 0.5
 });
