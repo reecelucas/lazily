@@ -1,4 +1,4 @@
-# Lazily
+# Lazily.js
 
 A lightweight (2.9kb min, 1.4kb min + gzip) image lazy-loading utility using the [Intersection Observer API](https://developer.mozillaorg/en-US/docs/Web/API/Intersection_Observer_API).
 
@@ -47,7 +47,7 @@ yarn add lazily
 ```
 
 ```JavaScript
-import lazily from 'lazily'; // or const lazily = require('lazily');
+import lazily from 'lazily.js'; // or const lazily = require('lazily.js');
 
 /**
  * Call the `lazily` factory function to return a "lazily"
