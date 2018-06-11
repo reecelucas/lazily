@@ -11,7 +11,9 @@ module.exports = {
         path: path.resolve(__dirname, 'dist'),
         filename: isProduction ? 'lazily.min.js' : 'index.js',
         library: 'lazily',
-        libraryTarget: 'umd'
+        libraryTarget: 'umd',
+        // Allows UMD to be required by node (https://github.com/webpack/webpack/issues/6522)
+        globalObject: "typeof self !== 'undefined' ? self : this"
     },
     module: {
         rules: [
