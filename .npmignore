@@ -1,6 +1,7 @@
 node_modules
 webpack.config.js
 src
+dist/index.js.map
 coverage
 tests
 package-lock.json
