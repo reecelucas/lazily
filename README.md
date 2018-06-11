@@ -1,6 +1,6 @@
 # Lazily.js
 
-A lightweight (2.9kb min, 1.4kb min + gzip) image lazy-loading utility using the [Intersection Observer API](https://developer.mozillaorg/en-US/docs/Web/API/Intersection_Observer_API).
+A lightweight (1.8kB min, 950b min + gzip) image lazy-loading utility using the [Intersection Observer API](https://developer.mozillaorg/en-US/docs/Web/API/Intersection_Observer_API).
 
 ## Browser Support
 
