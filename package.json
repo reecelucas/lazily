@@ -1,0 +1,57 @@
+{
+    "name": "lazily",
+    "version": "1.0.0",
+    "description": "Lightweight image lazy-loader using the intersection observer API.",
+    "main": "dist/index.js",
+    "author": "Reece Lucas <reecelucas@sky.com>",
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/reecelucas/lazily.git"
+    },
+    "keywords": [
+        "lazy",
+        "load",
+        "lazyload",
+        "lazy-load",
+        "intersection-observer",
+        "intersection",
+        "observer",
+        "images",
+        "performance",
+        "lightweight",
+        "js"
+    ],
+    "scripts": {
+        "clean": "rimraf dist",
+        "build": "webpack",
+        "lint": "eslint 'src/**/*.js'",
+        "format": "prettier --write 'src/**/*.js'",
+        "test": "jest",
+        "test:coverage": "jest --coverage --collectCoverageFrom 'src/**/*.js'",
+        "precommit": "npm run lint && npm run format",
+        "prepublishOnly": "npm run clean && npm run lint && npm run test && npm run build"
+    },
+    "devDependencies": {
+        "babel-cli": "^6.26.0",
+        "babel-core": "^6.26.3",
+        "babel-jest": "^23.0.1",
+        "babel-loader": "^7.1.4",
+        "babel-preset-env": "^1.7.0",
+        "eslint": "^4.19.1",
+        "eslint-config-airbnb": "^16.1.0",
+        "eslint-config-prettier": "^2.9.0",
+        "eslint-loader": "^2.0.0",
+        "eslint-plugin-import": "^2.12.0",
+        "eslint-plugin-jsx-a11y": "^6.0.3",
+        "eslint-plugin-react": "^7.9.1",
+        "husky": "^0.14.3",
+        "jest": "^23.1.0",
+        "path": "^0.12.7",
+        "prettier": "^1.13.4",
+        "regenerator-runtime": "^0.11.1",
+        "rimraf": "^2.6.2",
+        "webpack": "^4.11.1",
+        "webpack-cli": "^3.0.3"
+    }
+}
