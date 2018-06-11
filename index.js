@@ -24,7 +24,7 @@
  * root element), you can use a value of 0.5.
  * @returns {Lazily} - The "Lazily" object exposing init, destroy and update methods
  */
-module.exports = ({
+export default function({
     selector: selector = '.js-lazily-image',
     loadClass: loadClass = 'has-loaded',
     errorClass: errorClass = 'has-error',
@@ -33,7 +33,7 @@ module.exports = ({
     rootId: rootId = null,
     rootMargin: rootMargin = '0px 0px 0px 0px',
     threshold: threshold = 0
-} = {}) => {
+} = {}) {
     const d = document;
     let imageArray = [];
     let imageCount;
@@ -302,4 +302,4 @@ module.exports = ({
         destroy,
         update
     };
-};
+}

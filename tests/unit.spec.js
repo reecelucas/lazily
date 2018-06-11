@@ -1,4 +1,4 @@
-import lazily from '../src/index';
+import lazily from '../index';
 
 describe('Public API', () => {
     test('Should include an init, destroy and update method', () => {

@@ -3,6 +3,8 @@
     "version": "1.0.2",
     "description": "Lightweight image lazy-loader using the intersection observer API.",
     "main": "dist/index.js",
+    "module": "index.js",
+    "unpkg": "dist/lazily.min.js",
     "author": "Reece Lucas <reecelucas@sky.com>",
     "license": "MIT",
     "repository": {
@@ -25,12 +27,14 @@
     "scripts": {
         "clean": "rimraf dist",
         "build": "webpack",
-        "lint": "eslint 'src/**/*.js'",
-        "format": "prettier --write 'src/**/*.js'",
+        "build:min": "cross-env NODE_ENV=production webpack",
+        "build:all": "npm run build && npm run build:min",
+        "lint": "eslint 'index.js'",
+        "format": "prettier --write 'index.js'",
         "test": "jest",
         "test:coverage": "jest --coverage --collectCoverageFrom 'src/**/*.js'",
         "precommit": "npm run lint && npm run format",
-        "prepublishOnly": "npm run clean && npm run lint && npm run test && npm run build"
+        "prepublishOnly": "npm run clean && npm run lint && npm run test && npm run build:all"
     },
     "devDependencies": {
         "babel-cli": "^6.26.0",
@@ -38,6 +42,7 @@
         "babel-jest": "^23.0.1",
         "babel-loader": "^7.1.4",
         "babel-preset-env": "^1.7.0",
+        "cross-env": "^5.1.6",
         "eslint": "^4.19.1",
         "eslint-config-airbnb": "^16.1.0",
         "eslint-config-prettier": "^2.9.0",

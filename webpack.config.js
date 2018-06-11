@@ -1,12 +1,17 @@
+const webpack = require('webpack');
 const path = require('path');
 
+const isProduction = process.env.NODE_ENV === 'production';
+
 module.exports = {
-    mode: 'development',
+    mode: isProduction ? 'production' : 'development',
     devtool: 'source-map',
-    entry: path.resolve(__dirname, 'src/index.js'),
+    entry: path.resolve(__dirname, 'index.js'),
     output: {
         path: path.resolve(__dirname, 'dist'),
-        filename: 'index.js'
+        filename: isProduction ? 'lazily.min.js' : 'index.js',
+        library: 'lazily',
+        libraryTarget: 'umd'
     },
     module: {
         rules: [
@@ -17,6 +22,13 @@ module.exports = {
             }
         ]
     },
+    plugins: [
+        new webpack.DefinePlugin({
+            'process.env': {
+                NODE_ENV: JSON.stringify(process.env.NODE_ENV)
+            }
+        })
+    ],
     resolve: {
         extensions: ['.js']
     }
