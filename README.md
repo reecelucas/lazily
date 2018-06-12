@@ -47,7 +47,7 @@ yarn add lazily
 ```
 
 ```JavaScript
-import lazily from 'lazily.js'; // or const lazily = require('lazily.js');
+import lazily from 'lazily.js';
 
 /**
  * Call the `lazily` factory function to return a `lazily`
