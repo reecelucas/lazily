@@ -1,6 +1,6 @@
 {
     "name": "lazily.js",
-    "version": "1.0.10",
+    "version": "1.0.11",
     "description": "Lightweight image lazy-loader using the intersection observer API.",
     "main": "dist/index.js",
     "module": "index.js",
