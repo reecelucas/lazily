@@ -24,7 +24,7 @@
  * root element), you can use a value of 0.5.
  * @returns {Lazily} - The "Lazily" object exposing init, destroy and update methods
  */
-export default function({
+export default function lazily({
     selector = '.js-lazily-image',
     loadClass = 'has-loaded',
     errorClass = 'has-error',

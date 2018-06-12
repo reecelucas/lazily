@@ -34,4 +34,4 @@ declare function lazily({
     rootId,
     rootMargin,
     threshold
-}: LazilyOptions = {}): LazilyMethods;
+}: LazilyOptions): LazilyMethods;
