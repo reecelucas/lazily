@@ -26,12 +26,9 @@ declare function lazily({
     threshold
 }?: LazilyOptions): LazilyMethods;
 
-/**
- * `lazily` is a UMD module that exposes a global variable when loaded
- * outside of a module loader environment, so we must declare the global
- * function name here.
- */
-export as namespace lazily;
+declare namespace lazily { }
 
 // Specify that the `lazily` function is the exported object from the file
-export default lazily;
+declare module "lazily.js" {
+    export = lazily;
+}
