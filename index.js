@@ -25,14 +25,14 @@
  * @returns {Lazily} - The "Lazily" object exposing init, destroy and update methods
  */
 export default function({
-    selector: selector = '.js-lazily-image',
-    loadClass: loadClass = 'has-loaded',
-    errorClass: errorClass = 'has-error',
-    loadCallback: loadCallback = null,
-    errorCallback: errorCallback = null,
-    rootId: rootId = null,
-    rootMargin: rootMargin = '0px 0px 0px 0px',
-    threshold: threshold = 0
+    selector = '.js-lazily-image',
+    loadClass = 'has-loaded',
+    errorClass = 'has-error',
+    loadCallback,
+    errorCallback,
+    rootId,
+    rootMargin = '0px 0px 0px 0px',
+    threshold = 0
 } = {}) {
     const d = document;
     let imageArray = [];
@@ -222,7 +222,7 @@ export default function({
             const optionValue = stringOptionsMap[option];
 
             if (
-                optionValue !== null &&
+                optionValue !== undefined &&
                 (typeof optionValue !== 'string' || optionValue.length === 0)
             ) {
                 throw new Error(`Expected ${option} to be a string with length > 0`);
@@ -264,7 +264,7 @@ export default function({
 
         // Instantiate a new Intersection Observer
         observer = new IntersectionObserver(onEntry, {
-            root: d.getElementById(rootId), // Returns null if rootId is not passed at invocation
+            root: rootId ? d.getElementById(rootId) : null,
             rootMargin,
             threshold
         });
