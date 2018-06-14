@@ -29,6 +29,6 @@ declare function lazily({
 declare namespace lazily { }
 
 // Specify that the `lazily` function is the exported object from the file
-declare module "lazily.js" {
+declare module 'lazily.js' {
     export = lazily;
 }

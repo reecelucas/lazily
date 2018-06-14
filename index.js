@@ -174,8 +174,6 @@ export default function lazily({
         const srcUrl = img.getAttribute('data-src');
         const srcsetUrls = img.getAttribute('data-srcset');
 
-        if (!srcUrl || !srcsetUrls) return;
-
         fetchImages(srcUrl, srcsetUrls)
             .then(({ src, srcset }) => applyImage(img, src, srcset))
             .catch(() => handleImageError(img));
