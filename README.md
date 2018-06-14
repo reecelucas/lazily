@@ -85,7 +85,7 @@ lazyLoad.init();
 lazyLoad.destroy();
 
 /**
- * 3. Teardown the Intersection Observer instance and create a brand new one.
+ * 3. Update the array of images that will be observed.
  * This method is useful if you need to respond to DOM insertions after fetching
  * data asynchronously.
  */
