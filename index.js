@@ -40,17 +40,23 @@ export default function lazily({
     let observer;
 
     /**
-     * Disconnect the observer if it exists.
+     * Disconnect the observer (if it exists), and reset
+     * module state to default values.
      *
      * @returns {void}
      * @private
      */
-    function disconnectObserver() {
-        if (observer) observer.disconnect();
+    function resetState() {
+        if (!observer) return;
+
+        observer.disconnect();
+        observer = null;
+        imageArray.length = 0;
+        imageCount = 0;
     }
 
     /**
-     * Removes 'data-src' and 'data-srcset' attributes from img node.
+     * Removes `data-src` and `data-srcset` attributes from img node.
      *
      * @param {HTMLElement} img – reference to <img> node.
      * @returns {void}
@@ -64,20 +70,28 @@ export default function lazily({
     }
 
     /**
-     * @param {HTMLElement} img – reference to <img> node.
-     * @returns {Boolean} - true if img has the 'data-src' attribute,
+     * @param {HTMLElement} img – reference to `<img>` node.
+     * @returns {Boolean} - true if img has the `data-src` attribute,
      * which is stripped when the img is loaded.
      * @private
      */
     function hasNotBeenLoaded(img) {
-        if (!img) return false;
-
         return img.hasAttribute('data-src') || img.hasAttribute('data-srcset');
     }
 
     /**
-     * Sets image src and srcset.
-     * Adds loadClass and fires loadCallback, if provided.
+     * @param {String} selector – selector to pass to `querySelectorAll`.
+     * @returns {Array} - array of DOM elements matching the passed selector
+     * (which have not already been loaded).
+     * @private
+     */
+    function getElementsAsArray(elementSelector) {
+        return Array.from(d.querySelectorAll(elementSelector)).filter(hasNotBeenLoaded);
+    }
+
+    /**
+     * Sets image `src` and `srcset`.
+     * Adds `loadClass` and fires `loadCallback` (if provided).
      *
      * @param {HTMLElement} img – reference to <img> node.
      * @param {String} src – img src url.
@@ -88,7 +102,6 @@ export default function lazily({
     function applyImage(img, src, srcset) {
         const image = img;
 
-        // Set src & srcset, and remove 'data-' attributes
         if (src) image.src = src;
         if (srcset) image.srcset = srcset;
 
@@ -104,7 +117,7 @@ export default function lazily({
     }
 
     /**
-     * Adds errorClass and fires errorCallback, if provided.
+     * Adds `errorClass` and fires `errorCallback` (if provided).
      *
      * @param {HTMLElement} img – reference to <img> node.
      * @returns {void}
@@ -113,7 +126,7 @@ export default function lazily({
     function handleImageError(img) {
         const image = img;
 
-        // Remove 'data-' attributes to prevent multiple attempts at lazy-loading
+        // Remove `data-` attributes to prevent multiple attempts at lazy-loading
         stripDataAttributes(image);
 
         if (!image.classList.contains(errorClass)) {
@@ -126,12 +139,12 @@ export default function lazily({
     }
 
     /**
-     * Fetches the images for the given src and srcset URLs.
+     * Fetches the images for the given `src` and `srcset` URLs.
      * Returns a Promise that resolves if the images are successfuly downloaded.
      *
-     * @param {String} srcUrl – img src URL.
-     * @param {String} srcsetUrls – img srcset URLs.
-     * @returns {Promise} – returns the img src and srcset URLs when resolved.
+     * @param {String} srcUrl – img `src` URL.
+     * @param {String} srcsetUrls – img `srcset` URLs.
+     * @returns {Promise} – returns the img `src` and `srcset` URLs when resolved.
      * @private
      */
     function fetchImages(srcUrl, srcsetUrls) {
@@ -140,7 +153,7 @@ export default function lazily({
 
             const image = new Image();
             /**
-             * Bind load & error handlers before setting image src & srcset.
+             * Bind load & error handlers before setting image `src` & `srcset`.
              * Return an object as the resolve value since Promises must only
              * return a single fullfilment value.
              */
@@ -158,10 +171,10 @@ export default function lazily({
     }
 
     /**
-     * Retrieves the src and srcset URLs for a given image.
-     * Calls fetchImages and handles image load and error.
+     * Retrieves the `src` and `srcset` URLs for a given image.
+     * Calls `fetchImages` and handles image load and error.
      *
-     * @param {HTMLElement} img – reference to <img> node.
+     * @param {HTMLElement} img – reference to `<img>` node.
      * @returns {void}
      * @private
      */
@@ -175,14 +188,11 @@ export default function lazily({
     }
 
     /**
-     * @param {Array} entries – list of IntersectionObserverEntry objects.
+     * @param {Array} entries – list of `IntersectionObserverEntry` objects.
      * @returns {void}
      * @private
      */
     function onEntry(entries) {
-        // Disconnect the observer when all images have been loaded
-        if (imageCount === 0) disconnectObserver();
-
         entries.forEach(entry => {
             if (!entry.isIntersecting) return;
 
@@ -193,6 +203,12 @@ export default function lazily({
             observer.unobserve(image);
             loadImage(image);
         });
+
+        /**
+         * Disconnect the `observer` and reset module state when all
+         * images have been loaded.
+         */
+        if (imageCount === 0) resetState();
     }
 
     /**
@@ -210,7 +226,7 @@ export default function lazily({
             rootMargin
         };
 
-        // `keys --> forEach` pairing used in favour of Object.values for deeper support
+        // `keys --> forEach` pairing used in favour of `Object.values` for deeper support
         Object.keys(stringOptionsMap).forEach(option => {
             const optionValue = stringOptionsMap[option];
 
@@ -229,8 +245,18 @@ export default function lazily({
     }
 
     /**
+     * @param {Array} images – array of DOM elements.
+     * @param {IntersectionObserver} observerInstance – `IntersectionObserver` instance.
+     * @returns {void}
+     * @private
+     */
+    function observeImages(images, observerInstance) {
+        images.forEach(image => observerInstance.observe(image));
+    }
+
+    /**
      * Retrieves an array of DOM elements matching the given selector.
-     * Creates a new instance of the IntersectionObserver (in supporting browsers),
+     * Creates a new instance of the `IntersectionObserver` (in supporting browsers),
      * to watch each selected element for visibility changes. In unsupporting browsers
      * the images are loaded immediately.
      *
@@ -240,14 +266,13 @@ export default function lazily({
     function init() {
         handleConfigErrors();
 
-        // Retrieves an array of images that have not already been lazy-loaded
-        imageArray = Array.from(d.querySelectorAll(selector)).filter(hasNotBeenLoaded);
+        imageArray = getElementsAsArray(selector);
         imageCount = imageArray.length;
 
         if (imageCount === 0) return;
 
         /**
-         * If the browser does not support the intersection observer API (and a
+         * If the browser does not support the Intersection Observer API (and a
          * polyfill has not been included), load all images straight away.
          */
         if (!('IntersectionObserver' in window)) {
@@ -255,39 +280,44 @@ export default function lazily({
             return;
         }
 
-        // Instantiate a new Intersection Observer
+        // Instantiate a new `IntersectionObserver`
         observer = new IntersectionObserver(onEntry, {
             root: rootId ? d.getElementById(rootId) : null,
             rootMargin,
             threshold
         });
 
-        imageArray.forEach(image => observer.observe(image));
+        observeImages(imageArray, observer);
     }
 
     /**
-     * Stops the observer from watching all of its target elements for visibility changes.
-     * Empties the imageArray of DOM elements & resets the count variable.
+     * Updates the array of DOM elements that are observed
+     * (matching the selector passed on `init`). Useful for responding
+     * to DOM insertions.
+     *
+     * @returns {void}
+     * @public
+     */
+     function update() {
+        if (!observer) return;
+
+        imageArray = getElementsAsArray(selector);
+        imageCount = imageArray.length;
+
+        if (imageCount === 0) return;
+
+        observeImages(imageArray, observer);
+    }
+
+    /**
+     * Stops the `observer` from watching all of its target elements for visibility changes.
+     * Empties the `imageArray` of DOM elements & resets the count variable.
      *
      * @returns {void}
      * @public
      */
     function destroy() {
-        disconnectObserver();
-        imageArray = [];
-        imageCount = 0;
-    }
-
-    /**
-     * Tears down the observer before re-intitialising.
-     * Useful for responding to DOM insertions.
-     *
-     * @returns {void}
-     * @public
-     */
-    function update() {
-        destroy();
-        init();
+        resetState();
     }
 
     return {
