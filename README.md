@@ -40,10 +40,26 @@ yarn add lazily
            (max-width: 1024px) 100vw,
            (min-width: 1025px) 1200px"
     data-src="my-image.png"
-    data-srcset="/images/site-assets/test-image-1--mobile.jpg 460w,
-                 /images/site-assets/test-image-1--tablet.jpg 768w,
-                 /images/site-assets/test-image-1.jpg 1600w"
+    data-srcset="my-image--mobile.jpg 460w,
+                 my-image--tablet.jpg 768w,
+                 my-image--desktop.jpg 1600w"
 >
+
+<!-- Picture -->
+<picture>
+    <source
+        class="js-lazily-image"
+        srcset="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+        data-srcset="my-image--large.jpg"
+        media="(min-width: 1200px)"
+    >
+    <img
+        class="js-lazily-image"
+        src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+        data-src="my-image--default.jpg"
+        alt="MDN"
+    >
+</picture>
 ```
 
 ```JavaScript

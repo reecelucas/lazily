@@ -72,7 +72,7 @@ export default function lazily({
     function hasNotBeenLoaded(img) {
         if (!img) return false;
 
-        return img.hasAttribute('data-src');
+        return img.hasAttribute('data-src') || img.hasAttribute('data-srcset');
     }
 
     /**
@@ -89,11 +89,8 @@ export default function lazily({
         const image = img;
 
         // Set src & srcset, and remove 'data-' attributes
-        image.src = src;
-
-        if (srcset) {
-            image.srcset = srcset;
-        }
+        if (src) image.src = src;
+        if (srcset) image.srcset = srcset;
 
         stripDataAttributes(image);
 
@@ -139,7 +136,7 @@ export default function lazily({
      */
     function fetchImages(srcUrl, srcsetUrls) {
         return new Promise((resolve, reject) => {
-            if (!srcUrl) reject();
+            if (!srcUrl && !srcsetUrls) reject();
 
             const image = new Image();
             /**
@@ -154,11 +151,9 @@ export default function lazily({
                 });
 
             image.onerror = () => reject();
-            image.src = srcUrl;
 
-            if (srcsetUrls) {
-                image.srcset = srcsetUrls;
-            }
+            if (srcUrl) image.src = srcUrl;
+            if (srcsetUrls) image.srcset = srcsetUrls;
         });
     }
 
@@ -191,8 +186,8 @@ export default function lazily({
         entries.forEach(entry => {
             if (!entry.isIntersecting) return;
 
-            imageCount -= 1;
             const image = entry.target;
+            imageCount -= 1;
 
             // Stop watching the image and load it
             observer.unobserve(image);
@@ -215,7 +210,7 @@ export default function lazily({
             rootMargin
         };
 
-        // `keys` --> `forEach` pairing used in favour of Object.values for deeper support
+        // `keys --> forEach` pairing used in favour of Object.values for deeper support
         Object.keys(stringOptionsMap).forEach(option => {
             const optionValue = stringOptionsMap[option];
 
