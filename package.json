@@ -27,7 +27,7 @@
     "scripts": {
         "clean": "rimraf dist/*",
         "build": "cross-env NODE_ENV=development babel index.js --out-file 'dist/index.js'",
-        "build:min": "cross-env NODE_ENV=production babel index.js --out-file 'dist/index.min.js' --source-maps",
+        "build:min": "cross-env NODE_ENV=production babel index.js --out-file 'dist/lazily.min.js' --source-maps",
         "build:all": "npm run build && npm run build:min",
         "lint": "eslint 'index.js'",
         "format": "prettier --write 'index.js'",
