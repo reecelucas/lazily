@@ -298,7 +298,7 @@ export default function lazily({
      * @returns {void}
      * @public
      */
-     function update() {
+    function update() {
         if (!observer) return;
 
         imageArray = getElementsAsArray(selector);
