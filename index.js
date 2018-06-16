@@ -299,7 +299,15 @@ export default function lazily({
      * @public
      */
     function update() {
-        if (!observer) return;
+        /**
+         * If `update` is called after all initial images have been loaded,
+         * the observer instance will have been disconnected and nullified,
+         * so we call `init` to re-instantiate it.
+         */
+        if (!observer) {
+            init();
+            return;
+        }
 
         imageArray = getElementsAsArray(selector);
         imageCount = imageArray.length;
