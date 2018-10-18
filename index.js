@@ -86,7 +86,7 @@ export default function lazily({
      * @private
      */
     function getElementsAsArray(elementSelector) {
-        return Array.from(d.querySelectorAll(elementSelector)).filter(hasNotBeenLoaded);
+        return [...d.querySelectorAll(elementSelector)].filter(hasNotBeenLoaded);
     }
 
     /**

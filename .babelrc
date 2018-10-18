@@ -1,24 +1,26 @@
 {
-    "presets": [
-        [
-            "env", {
-                "targets": {
-                    "browsers": [
-                        "last 4 versions",
-                        "safari >= 7",
-                        "ie >= 9"
-                    ]
-                }
-            }
-        ]
-    ],
     "env": {
+        "esm": {
+            "presets": [
+                ["env", { "modules": false } ]
+            ]
+        },
+        "development": {
+            "presets": ["env"],
+            "plugins": [
+                "add-module-exports",
+                "transform-es2015-modules-umd"
+            ]
+        },
         "production": {
-            "presets": ["minify"]
+            "presets": ["env", "minify"],
+            "plugins": [
+                "add-module-exports",
+                "transform-es2015-modules-umd"
+            ]
+        },
+        "test": {
+            "presets": ["env"]
         }
-    },
-    "plugins": [
-        "add-module-exports",
-        "transform-es2015-modules-umd"
-    ]
+    }
 }
