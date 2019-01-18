@@ -110,6 +110,6 @@ const lazyLoad = lazily({
 
 ## License
 
-Licensed under the MIT License, Copyright © 2018 Reece Lucas.
+Licensed under the MIT License, Copyright © 2019 Reece Lucas.
 
 See [LICENSE](./LICENSE) for more information.
