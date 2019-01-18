@@ -11,12 +11,12 @@ For Intersection Observer API support please refer to [canIuse](https://caniuse.
 Install with [npm](https://www.npmjs.com/) or [yarn](https://yarnpkg.com/lang/en/):
 
 npm:
-```
+```Bash
 npm install lazily --save
 ```
 
 yarn:
-```
+```Bash
 yarn add lazily
 ```
 
@@ -44,22 +44,6 @@ yarn add lazily
                  my-image--tablet.jpg 768w,
                  my-image--desktop.jpg 1600w"
 >
-
-<!-- Picture -->
-<picture>
-    <source
-        class="js-lazily-image"
-        srcset="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
-        data-srcset="my-image--large.jpg"
-        media="(min-width: 1200px)"
-    >
-    <img
-        class="js-lazily-image"
-        src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
-        data-src="my-image--default.jpg"
-        alt="MDN"
-    >
-</picture>
 ```
 
 ```JavaScript
